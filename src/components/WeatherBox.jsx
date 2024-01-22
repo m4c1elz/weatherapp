@@ -29,6 +29,7 @@ export default function WeatherBox() {
                 `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}`,
             )
             const result = await response.json()
+            console.log(result)
             setData({
                 temperature: convertToCelsius(result.main.temp),
                 maxTemperature: convertToCelsius(result.main.temp_max),
@@ -37,9 +38,9 @@ export default function WeatherBox() {
                 weather: result.weather[0].main,
                 weatherDesc: capitalizeText(result.weather[0].description),
                 iconCode: result.weather[0].icon,
+                feelsLike: convertToCelsius(result.main.feels_like),
             })
         } catch (error) {
-            console.log(error)
             setError(true)
         }
     }
@@ -87,6 +88,9 @@ export default function WeatherBox() {
                         <h1 className="text-center">
                             {data.weatherDesc} on {data.city}
                         </h1>
+                        <p className="mt-2 text-center text-lg">
+                            Thermal sensation of {data.feelsLike}
+                        </p>
                     </>
                 ) : (
                     <SetLoadingText />
